@@ -49,9 +49,9 @@ chat = ChatOpenAI(
 embeddings = OpenAIEmbeddings(openai_api_key=st.secrets['openai_api_key'])
 
 #Fetch and load documents
-path = "app/static/CV.pdf"
-loader = PyPDFLoader(path)
-docs = loader.load()
+#path = "app/static/CV.pdf"
+#loader = PyPDFLoader(path)
+#docs = loader.load()
 
 #Indexing
 text_splitter = RecursiveCharacterTextSplitter()
