@@ -45,7 +45,7 @@ chat = ChatOpenAI(
     api_key=st.secrets['openai_api_key']
 )
 # Intialize embeddings
-embeddings = OpenAIEmbeddings()
+embeddings = OpenAIEmbeddings(openai_api_key=st.secrets['openai_api_key'])
 
 #Fetch and load document
 path = "./docs/CV.pdf"
