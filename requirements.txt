@@ -5,3 +5,4 @@ langchain
 openai
 langchain-openai
 faiss-cpu
+pypdf
