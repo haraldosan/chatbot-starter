@@ -22,6 +22,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
+from langchain_community.document_loaders import WebBaseLoader
 
 #Load environment variables
 # Set streamlit page configuration
@@ -47,10 +48,8 @@ chat = ChatOpenAI(
 # Intialize embeddings
 embeddings = OpenAIEmbeddings(openai_api_key=st.secrets['openai_api_key'])
 
-#Fetch and load document
-path = "./docs/CV.pdf"
-print(path)
-loader = PyPDFLoader(path)
+#Fetch and load documents
+loader = WebBaseLoader("https://www.orimi.com/pdf-test.pdf")
 docs = loader.load()
 
 #Indexing
