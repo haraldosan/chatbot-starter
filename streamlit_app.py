@@ -103,4 +103,4 @@ if st.session_state['generated']:
 # Add credit
 st.markdown("""
 ---
-Made with 🤖 by [Austin Johnson](https://github.com/AustonianAI)""")
+Laget med 🤖 av Harald Osan""")
