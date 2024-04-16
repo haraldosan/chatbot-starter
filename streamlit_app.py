@@ -49,7 +49,8 @@ chat = ChatOpenAI(
 embeddings = OpenAIEmbeddings(openai_api_key=st.secrets['openai_api_key'])
 
 #Fetch and load documents
-loader = WebBaseLoader("https://www.orimi.com/pdf-test.pdf")
+path = "app/static/CV.pdf"
+loader = PyPDFLoader(path)
 docs = loader.load()
 
 #Indexing
