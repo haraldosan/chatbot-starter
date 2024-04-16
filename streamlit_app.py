@@ -49,14 +49,14 @@ embeddings = OpenAIEmbeddings(openai_api_key=st.secrets['openai_api_key'])
 
 #Fetch and load document
 path = "./docs/CV.pdf"
-os.write(path)
+os.write(1,path)
 loader = PyPDFLoader(path)
 docs = loader.load()
 
 #Indexing
 text_splitter = RecursiveCharacterTextSplitter()
 documents = text_splitter.split_documents(docs)
-os.write(documents)
+os.write(2,documents)
 vector = FAISS.from_documents(documents, embeddings)
 
 #Set retriever and create retrieval chain
