@@ -3,3 +3,5 @@ streamlit-chat
 python-dotenv
 langchain
 openai
+langchain-openai
+faiss-cpu
