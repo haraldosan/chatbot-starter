@@ -56,7 +56,7 @@ docs = loader.load()
 #Indexing
 text_splitter = RecursiveCharacterTextSplitter()
 documents = text_splitter.split_documents(docs)
-print(documents[0])
+print(documents)
 vector = FAISS.from_documents(documents, embeddings)
 
 #Set retriever and create retrieval chain
