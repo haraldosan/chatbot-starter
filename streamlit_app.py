@@ -1,7 +1,5 @@
 # Import required libraries
-from dotenv import load_dotenv
 from itertools import zip_longest
-
 import streamlit as st
 from streamlit_chat import message
 
@@ -11,13 +9,10 @@ from langchain.schema import (
     HumanMessage,
     AIMessage
 )
-
-# Load environment variables
-load_dotenv()
-
+#Load environment variables
 # Set streamlit page configuration
-st.set_page_config(page_title="ChatBot Starter")
-st.title("ChatBot Starter")
+st.set_page_config(page_title="AI-Kurs ChatBot")
+st.title("AI-Kurs ChatBot")
 
 # Initialize session state variables
 if 'generated' not in st.session_state:
@@ -32,7 +27,8 @@ if 'entered_prompt' not in st.session_state:
 # Initialize the ChatOpenAI model
 chat = ChatOpenAI(
     temperature=0.5,
-    model_name="gpt-3.5-turbo"
+    model_name="gpt-3.5-turbo",
+    api_key=st.secrets['openai_api_key']
 )
 
 
