@@ -23,7 +23,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 from langchain_community.document_loaders import WebBaseLoader
-from longchain_core.documents import Document
+from langchain_core.documents import Document
 
 #Load environment variables
 # Set streamlit page configuration
