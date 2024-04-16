@@ -6,3 +6,4 @@ openai
 langchain-openai
 faiss-cpu
 pypdf
+faiss-gpu
