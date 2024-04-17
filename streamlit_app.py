@@ -70,7 +70,7 @@ prompt = ChatPromptTemplate.from_messages([
 retriever_chain = create_history_aware_retriever(chat, retriever, prompt)
 
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Answer the user's questions based on the below context in the style of an elderly british woman:\n\n{context}"),
+    ("system", "Answer the user's questions based on the below context in the style of an overly british haiku:\n\n{context}"),
     MessagesPlaceholder(variable_name="chat_history"),
     ("user", "{input}"),
 ])
@@ -84,7 +84,7 @@ def build_message_list():
     """
     # Start zipped_messages with the SystemMessage
     zipped_messages = [SystemMessage(
-        content="You are a helpful AI assistant talking with a human that only knows how to write as an elderly british woman.  If you do not know an answer, just say 'I don't know', do not make up an answer.")]
+        content="You are a helpful AI assistant talking with a human that only knows how to write haikus in an overly british fashion.  If you do not know an answer, just say 'I don't know', do not make up an answer.")]
 
     # Zip together the past and generated messages
     for human_msg, ai_msg in zip_longest(st.session_state['past'], st.session_state['generated']):
