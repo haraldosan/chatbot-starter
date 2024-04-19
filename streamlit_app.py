@@ -158,7 +158,7 @@ if st.session_state['generated']:
                 is_user=True, key=str(i) + '_user')
 
 with st.sidebar:
-    st.text_input(default=st.session_state['path'],label="Legg til URL til PDF")
+    st.text_input(value=st.session_state['path'],label="Legg til URL til PDF")
     st.slider(min_value=0,max_value=1,label="Juster temperaturen til AI",step=0.1,key="prompt_temp", on_change=change_temp)
 
 chat = initialize_openai_bot()
