@@ -41,7 +41,10 @@ if 'entered_prompt' not in st.session_state:
     st.session_state['entered_prompt'] = ""  # Store the latest user input
 
 if 'temperature' not in st.session_state:
-    st.session_state['temperature'] = 0.1 #Store user input for AI bot temperature   
+    st.session_state['temperature'] = 0.1 #Store user input for AI bot temperature
+
+if 'path' not in st.session_state:
+    st.session_state['path'] = "https://if.no/apps/vilkarsbasendokument/Vilkaar?produkt=Generelle_vilk%C3%A5r"
 
 # Initialize the ChatOpenAI model
 
@@ -57,8 +60,7 @@ embeddings = OpenAIEmbeddings(openai_api_key=st.secrets['openai_api_key'])
 #Fetch and load documents
 
 def build_retriever():
-    path = "https://if.no/apps/vilkarsbasendokument/Vilkaar?produkt=Generelle_vilk%C3%A5r"
-    loader = PyPDFLoader(path)
+    loader = PyPDFLoader(st.session_state['path'])
     docs = loader.load()
 
     #Indexing
@@ -156,7 +158,7 @@ if st.session_state['generated']:
                 is_user=True, key=str(i) + '_user')
 
 with st.sidebar:
-    pdf_url = st.text_input(default=path,label="Legg til URL til PDF")
+    st.text_input(default=st.session_state['path'],label="Legg til URL til PDF")
     st.slider(min_value=0,max_value=1,label="Juster temperaturen til AI",step=0.1,key="prompt_temp", on_change=change_temp)
 
 chat = initialize_openai_bot()
