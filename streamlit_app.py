@@ -107,18 +107,6 @@ def build_message_list():
 
     return zipped_messages
 
-
-def generate_response(user_input):
-    """
-    Generate AI response using the ChatOpenAI model.
-    """
-    # Build the list of messages
-    zipped_messages = build_message_list()
-    output = retrieval_chain.invoke({"chat_history":zipped_messages,"input":user_input})
-    # Generate response using the chat model
-    return output['answer']
-
-
 # Define function to submit user input
 def submit():
     # Set entered_prompt to the current value of prompt_input
@@ -131,9 +119,21 @@ def change_temp():
     st.session_state.temperature = st.session_state.prompt_temp
     chat = initialize_openai_bot()
 
+chat = initialize_openai_bot()
+retrieval_chain = build_retriever()
+
+def generate_response(user_input):
+    """
+    Generate AI response using the ChatOpenAI model.
+    """
+    # Build the list of messages
+    zipped_messages = build_message_list()
+    output = retrieval_chain.invoke({"chat_history":zipped_messages,"input":user_input})
+    # Generate response using the chat model
+    return output['answer']
+
 # Create a text input for user
 st.text_input('YOU: ', key='prompt_input', on_change=submit)
-
 
 if st.session_state.entered_prompt != "":
     # Get user query
@@ -159,10 +159,7 @@ if st.session_state['generated']:
 
 with st.sidebar:
     st.text_input(value=st.session_state['path'],label="Legg til URL til PDF")
-    st.slider(min_value=0,max_value=1,label="Juster temperaturen til AI",step=0.1,key="prompt_temp", on_change=change_temp)
-
-chat = initialize_openai_bot()
-retrieval_chain = build_retriever()
+    st.slider(min_value=0.0,max_value=1.0,label="Juster temperaturen til AI",step=0.1,key="prompt_temp", on_change=change_temp)
 
 # Add credit
 st.markdown("""
