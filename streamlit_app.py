@@ -106,7 +106,7 @@ def generate_response(user_input):
     zipped_messages = build_message_list()
     output = retrieval_chain.invoke({"chat_history":zipped_messages,"input":user_input})
     # Generate response using the chat model
-    return output['context']
+    return output['context'][0].page_content
 
 
 # Define function to submit user input
