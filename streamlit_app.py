@@ -151,31 +151,40 @@ def generate_response(user_input):
     output = retrieval_chain.invoke({"chat_history":zipped_messages,"input":user_input})
     # Generate response using the chat model
     return output['answer']
+col1,col2 = st.columns(2)
 
-# Create a text input for user
-st.text_input('YOU: ', key='prompt_input', on_change=submit)
+with col2:
+    # Create a text input for user
+    st.text_input('YOU: ', key='prompt_input', on_change=submit)
 
-if st.session_state.entered_prompt != "":
-    # Get user query
-    user_query = st.session_state.entered_prompt
+    if st.session_state.entered_prompt != "":
+        # Get user query
+        user_query = st.session_state.entered_prompt
 
-    # Generate response
-    output = generate_response(user_query)
+        # Generate response
+        output = generate_response(user_query)
 
-    # Append user query to past queries
-    st.session_state.past.append(user_query)
+        # Append user query to past queries
+        st.session_state.past.append(user_query)
 
-    # Append AI response to generated responses
-    st.session_state.generated.append(output)
+        # Append AI response to generated responses
+        st.session_state.generated.append(output)
 
-# Display the chat history
-if st.session_state['generated']:
-    for i in range(len(st.session_state['generated'])-1, -1, -1):
-        # Display AI response
-        message(st.session_state["generated"][i], key=str(i))
-        # Display user message
-        message(st.session_state['past'][i],
-                is_user=True, key=str(i) + '_user')
+    # Display the chat history
+    if st.session_state['generated']:
+        for i in range(len(st.session_state['generated'])-1, -1, -1):
+            # Display AI response
+            message(st.session_state["generated"][i], key=str(i))
+            # Display user message
+            message(st.session_state['past'][i],
+                    is_user=True, key=str(i) + '_user')
+            
+with col1:
+    # Add credit
+    st.markdown("""
+---
+Laget med 🤖 av Harald Osan""")
+
 
 with st.sidebar:
     st.text_input(value=st.session_state['path'],label="Legg til URL til PDF", on_change = change_url, key = "prompt_path")
