@@ -178,7 +178,7 @@ if st.session_state['generated']:
                 is_user=True, key=str(i) + '_user')
 
 with st.sidebar:
-    st.text_input(value=st.session_state['path'],label="Legg til URL til PDF", on_change = change_url)
+    st.text_input(value=st.session_state['path'],label="Legg til URL til PDF", on_change = change_url, key = "prompt_path")
     st.slider(min_value=0.0,max_value=1.0,label="Juster temperaturen til AI",step=0.1,key="prompt_temp", on_change=change_temp)
 
 # Add credit
