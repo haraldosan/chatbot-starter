@@ -27,7 +27,7 @@ from langchain_core.documents import Document
 
 #Load environment variables
 # Set streamlit page configuration
-st.set_page_config(page_title="AI-Kurs ChatBot")
+st.set_page_config(page_title="AI-Kurs ChatBot",layout = "wide",initial_sidebar_state="collapsed")
 st.title("AI-Kurs")
 
 # Initialize session state variables
