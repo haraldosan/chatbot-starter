@@ -46,6 +46,9 @@ if 'temperature' not in st.session_state:
 if 'path' not in st.session_state:
     st.session_state['path'] = "https://if.no/apps/vilkarsbasendokument/Vilkaar?produkt=Generelle_vilk%C3%A5r"
 
+if 'context' not in st.session_state:
+    st.session_state['context'] = "Ingen kontekst funnet"
+
 # Initialize the ChatOpenAI model
 
 def initialize_openai_bot():
@@ -150,7 +153,12 @@ def generate_response(user_input):
     zipped_messages = build_message_list()
     output = retrieval_chain.invoke({"chat_history":zipped_messages,"input":user_input})
     # Generate response using the chat model
+    context = ""
+    for elems in output['context']:
+        context += elems.page_content
+    st.session_state['context'] = context
     return output['answer']
+
 col1,col2 = st.columns(2)
 
 with col2:
@@ -179,13 +187,11 @@ with col2:
             # Display user message
             message(st.session_state['past'][i],
                     is_user=True, key=str(i) + '_user')
-            
+
 with col1:
     st.header('Context')
-    # Add credit
-    st.markdown("""
----
-Laget med 🤖 av Harald Osan""")
+    st.text(st.session_state['context'])
+    
 
 
 with st.sidebar:
