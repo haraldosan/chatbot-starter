@@ -71,22 +71,30 @@ def build_retriever():
 
     #Set retriever and create retrieval chain
     retriever = vector.as_retriever()
+    return retriever
+
+def build_retriever_chain(chat,retriever):
     prompt = ChatPromptTemplate.from_messages([
         MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}"),
         ("user", "Gitt den tidligere samtalen, generer et søk som gir mening i relasjon til tidligere samtale")
     ])
     retriever_chain = create_history_aware_retriever(chat, retriever, prompt)
+    return retriever_chain
 
+def build_document_chain(chat):
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "Svar på brukerens spørsmål som en ekspert innen forsikring og vilkår:\n\n{context}"),
-        MessagesPlaceholder(variable_name="chat_history"),
-        ("user", "{input}"),
+    ("system", "Svar på brukerens spørsmål som en ekspert innen området som er definert i dokumentet i tidligere samtale:\n\n{context}"),
+    MessagesPlaceholder(variable_name="chat_history"),
+    ("user", "{input}"),
     ])
-
     document_chain = create_stuff_documents_chain(chat, prompt)
+    return document_chain
+
+def build_retrieval_chain(retriever_chain,document_chain):
     retrieval_chain = create_retrieval_chain(retriever_chain, document_chain)
     return retrieval_chain
+
 
 def build_message_list():
     """
@@ -94,7 +102,7 @@ def build_message_list():
     """
     # Start zipped_messages with the SystemMessage
     zipped_messages = [SystemMessage(
-        content="Du er en hjelpsom ekspert innen forsikring som hjelper kunder med spørsmål de har rundt generelle forsikringsvilkår. Dersom du ikke vet svaret kan du henvise dem til en kundebehandler.")]
+        content="Du er en hjelpsom ekspert som hjelper kunder med spørsmål de har.")]
 
     # Zip together the past and generated messages
     for human_msg, ai_msg in zip_longest(st.session_state['past'], st.session_state['generated']):
@@ -107,6 +115,12 @@ def build_message_list():
 
     return zipped_messages
 
+chat = initialize_openai_bot()
+retriever = build_retriever()
+retriever_chain = build_retriever_chain(chat,retriever)
+document_chain = build_document_chain(chat)
+retrieval_chain = build_retrieval_chain(retriever_chain,document_chain)
+
 # Define function to submit user input
 def submit():
     # Set entered_prompt to the current value of prompt_input
@@ -118,9 +132,15 @@ def change_temp():
     # Set entered_prompt to the current value of prompt_input
     st.session_state.temperature = st.session_state.prompt_temp
     chat = initialize_openai_bot()
+    retriever_chain = build_retriever_chain(chat, retriever)
+    document_chain = build_document_chain(chat)
+    retrieval_chain = build_retrieval_chain(retriever_chain,document_chain)
 
-chat = initialize_openai_bot()
-retrieval_chain = build_retriever()
+def change_url():
+    st.session_state.path = st.session_state.prompt_path
+    retriever = build_retriever()
+    retriever_chain = build_retriever_chain(chat,retriever)
+    
 
 def generate_response(user_input):
     """
@@ -158,7 +178,7 @@ if st.session_state['generated']:
                 is_user=True, key=str(i) + '_user')
 
 with st.sidebar:
-    st.text_input(value=st.session_state['path'],label="Legg til URL til PDF")
+    st.text_input(value=st.session_state['path'],label="Legg til URL til PDF", on_change = change_url)
     st.slider(min_value=0.0,max_value=1.0,label="Juster temperaturen til AI",step=0.1,key="prompt_temp", on_change=change_temp)
 
 # Add credit
