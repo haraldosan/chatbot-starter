@@ -28,7 +28,7 @@ from langchain_core.documents import Document
 #Load environment variables
 # Set streamlit page configuration
 st.set_page_config(page_title="AI-Kurs ChatBot")
-st.title("AI-Kurs ChatBot")
+st.title("AI-Kurs")
 
 # Initialize session state variables
 if 'generated' not in st.session_state:
@@ -155,6 +155,7 @@ col1,col2 = st.columns(2)
 
 with col2:
     # Create a text input for user
+    st.header('Chat')
     st.text_input('YOU: ', key='prompt_input', on_change=submit)
 
     if st.session_state.entered_prompt != "":
@@ -180,6 +181,7 @@ with col2:
                     is_user=True, key=str(i) + '_user')
             
 with col1:
+    st.header('Context')
     # Add credit
     st.markdown("""
 ---
