@@ -44,7 +44,7 @@ if 'temperature' not in st.session_state:
     st.session_state['temperature'] = 0.1 #Store user input for AI bot temperature
 
 if 'path' not in st.session_state:
-    st.session_state['path'] = "https://github.com/haraldosan/chatbot-starter/blob/main/Dokumenter/Nasjonalbudsjettetkap2.pdf"
+    st.session_state['path'] = "raw.githubusercontent.com/haraldosan/chatbot-starter/main/Dokumenter/Nasjonalbudsjettetkap2.pdf"
 
 if 'context' not in st.session_state:
     st.session_state['context'] = "Ingen kontekst funnet"
