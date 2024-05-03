@@ -28,7 +28,7 @@ from langchain_core.documents import Document
 #Load environment variables
 # Set streamlit page configuration
 st.set_page_config(page_title="AI-Kurs ChatBot",layout = "wide",initial_sidebar_state="collapsed")
-st.title("AndreaGPT, ikke sant!")
+st.title("KulGPT!")
 
 # Initialize session state variables
 if 'generated' not in st.session_state:
