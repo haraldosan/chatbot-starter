@@ -87,7 +87,7 @@ def build_retriever_chain(chat,retriever):
 
 def build_document_chain(chat):
     prompt = ChatPromptTemplate.from_messages([
-    ("system", "Answer the users questions using a mixture of mainly English, but use at least one Norwegian word in each sentence. Please respons like a passionate italian person, use italian slang.\n\n{context}"),
+    ("system", "Answer the users questions using a mixture of mainly English, but use at least two Norwegian word in each sentence.\n\n{context}"),
     MessagesPlaceholder(variable_name="chat_history"),  
     ("user", "{input}"),
     ])
@@ -105,7 +105,7 @@ def build_message_list():
     """
     # Start zipped_messages with the SystemMessage
     zipped_messages = [SystemMessage(
-        content="You are a skilled managing partner at a consultancy firm and you answer all questions in English, but sprinkled with Norwegian and Italian words. Also include weird Italian references.")]
+        content="You are a skilled managing partner at a consultancy firm and you answer all questions in English, but sprinkled with Norwegian and Italian words.")]
 
     # Zip together the past and generated messages
     for human_msg, ai_msg in zip_longest(st.session_state['past'], st.session_state['generated']):
